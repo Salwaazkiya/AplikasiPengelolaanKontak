@@ -32,6 +32,16 @@ public class PengelolaanKontak extends javax.swing.JFrame {
         btnImpor.addActionListener(e -> imporCSV());
         btnKeluar.addActionListener(e -> System.exit(0));
         
+        tabelKontak.getSelectionModel().addListSelectionListener(e -> {
+        int selectedRow = tabelKontak.getSelectedRow();
+        if (selectedRow != -1) {
+            // Pindahkan data dari tabel ke field input
+            txtNama.setText(tabelKontak.getValueAt(selectedRow, 1).toString());
+            txtNomor.setText(tabelKontak.getValueAt(selectedRow, 2).toString());
+            boxKategori.setSelectedItem(tabelKontak.getValueAt(selectedRow, 3).toString());
+    }
+});
+        
         tabelKontak.setModel(new DefaultTableModel(
         new Object[][]{}, //data awal kosong
         new String[]{"ID", "Nama", "Nomor Telepon", "Kategori"} //untuk judul kolom
@@ -75,6 +85,11 @@ public class PengelolaanKontak extends javax.swing.JFrame {
             String nama = txtNama.getText();
             String nomor = txtNomor.getText();
             String kategori = boxKategori.getSelectedItem().toString();
+            
+            System.out.println("Nama: " + txtNama.getText());
+            System.out.println("Nomor: " + txtNomor.getText());
+            System.out.println("Kategori: " + boxKategori.getSelectedItem());
+
 
             if (nama.isEmpty() || nomor.isEmpty() || kategori.equals("Pilih Kategori")) {
                 JOptionPane.showMessageDialog(this, "Semua field harus diisi!");

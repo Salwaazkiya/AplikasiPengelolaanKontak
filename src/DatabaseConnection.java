@@ -11,9 +11,24 @@ import java.sql.SQLException;
  * @author USER
  */
 public class DatabaseConnection {
-    private static final String URL = "jdbc:sqlite:C:\\Users\\USER\\Documents\\NetBeansProjects\\AplikasiPengelolaanKontak\\src\\kontak.db";
-    
+    private static final String URL = "jdbc:sqlite:kontak.db";
+
+    static {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Driver SQLite tidak ditemukan!", e);
+        }
+    }
+
     public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(URL);
+        try {
+            Connection conn = DriverManager.getConnection(URL);
+            System.out.println("Koneksi berhasil ke database: " + URL);
+            return conn;
+        } catch (SQLException e) {
+            System.err.println("Koneksi gagal: " + e.getMessage());
+            throw e;
+        }
     }
 }
